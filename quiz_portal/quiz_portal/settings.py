@@ -58,7 +58,7 @@ ROOT_URLCONF = 'quiz_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,6 +128,9 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
@@ -135,3 +138,17 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
+REDIRECT_URL = '/home/'
+SOCIAL_AUTH_TWITTER_KEY = ' 9AgAg61AFuOx90UVVo3tvwG13'
+SOCIAL_AUTH_TWITTER_SECRET = 'jROnu5N3mof54ALBIGtckbv80mO6AxER3Fp8WG3YO3fDBdSZkS'
+#SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
+#SOCIAL_AUTH_LOGIN_URL = 'http://127.0.0.1:8000/complete/twitter/'
+#SOCIAL_AUTH_USER_MODEL = 'Quiz_arena.models.Users'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '929181250686-m29iemv2u3f33ng7rviqbq0egn7ec2kb.apps.googleusercontent.com';
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'RgJA-LtqvlfNWBKyYm9nIch9';
+SOCIAL_AUTH_FACEBOOK_KEY = '1054490687965537'
+SOCIAL_AUTH_FACEBOOK_SECRET = '77d0b7012ba5b7462a5c144109c02ec8'
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+    )

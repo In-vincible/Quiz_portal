@@ -1,0 +1,24 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/car.css" />
+    {% block extrahead %}{% endblock %}
+</head>
+<body>
+<div id="pageContainer">
+    <div id="nav_top_right">
+        {% if user.is_authenticated %}
+                <p>Hello {{ user.get_full_name|default:user.username }}!</p>
+                <p>{{user.email}}</p>
+                <p><a href="/logout/">Logout</a></p>
+        {% else %}
+                <p><a href="/login/">Login</a></p>
+                <p><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a></p>
+                <p><a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a></p>
+                <p><a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Login with Twitter</a></p>
+        {% endif %}
+    </div>
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

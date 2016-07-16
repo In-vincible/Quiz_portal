@@ -1,0 +1,8 @@
+
+{% if request.session.logged_in %}
+Success fully registered {{request.session.username}}
+<br>
+<a href='/logout/'>logout</a>
+{% else %}
+Please go to home page
+{% endif %}
