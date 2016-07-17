@@ -95,7 +95,7 @@
 		                        		<i class="fa fa-twitter"></i> Twitter
 		                        	</a>
 		                        	<a class="btn btn-link-2" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
-		                        		<i class="fa fa-google-plus"></i> Google Plus
+		                        		<i class="fa fa-google-plus"></i> Google 
 		                        	</a>
 	                        	</div>
 	                        </div>
@@ -118,23 +118,23 @@
 	                        		</div>
 	                            </div>
 	                            <div class="form-bottom">
-				                    <form role="form" action="/signup/" method="post" class="registration-form">
+				                    <form role="form" action="/signup/" method="post" class="registration-form" id='registration'>
                                     {% csrf_token %}
 				                    	<div class="form-group">
-				                    		<label class="sr-only" for="form-first-name">First name</label>
-				                        	<input type="text" name="form-first-name" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
+				                    		<label class="sr-only" for="first_name">First name</label>
+				                        	<input type="text" name="first_name" placeholder="First name..." class="form-first-name form-control" id="first_name">
 				                        </div>
 				                        <div class="form-group">
-				                        	<label class="sr-only" for="form-last-name">Last name</label>
-				                        	<input type="text" name="form-last-name" placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
+				                        	<label class="sr-only" for="last_name">Last name</label>
+				                        	<input type="text" name="last_name" placeholder="Last name..." class="form-last-name form-control" id="last_name">
 				                        </div>
 				                        <div class="form-group">
-				                        	<label class="sr-only" for="form-email">Email</label>
-				                        	<input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-email">
+				                        	<label class="sr-only" for="email">Email</label>
+				                        	<input type="text" name="email" placeholder="Email..." class="form-email form-control" id="email">
 				                        </div>
                                         <div class="form-group">
-                                            <label class="sr-only" for="form-number">Contact</label>
-                                            <input type="text" name="form-number" placeholder="Phone..." class="form-email form-control" id="form-email">
+                                            <label class="sr-only" for="number">Contact</label>
+                                            <input type="text" name="number" placeholder="Phone..." class="form-email form-control" id="number">
                                         </div>
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="password">Password</label>
@@ -180,7 +180,58 @@
         <script src="{% static "assets/bootstrap/js/bootstrap.min.js" %} "></script>
         <script src="{% static "assets/js/jquery.backstretch.min.js" %} "></script>
         <script src="{% static "assets/js/scripts.js" %} "></script>
-        
+        <script src="{% static "assets/js/jquery.validate.min.js" %}"></script>
+
+        <script type="text/javascript">
+        var if_unique_url = "{{ server}}"+"if_unique/";
+            //form validation rules
+$(document).ready(function(){
+    $("#registration").validate({
+                rules: {
+                    first_name: "required",
+                    last_name:"required",
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                    number: {
+                        required:true,
+                        number:true,
+                    },
+                    password: "required",
+                    cpassword:{
+                        required:true,
+                        equalTo:'#password'
+                    }
+                },
+                messages: {
+                    first_name: "Please enter your First Name",
+                    last_name:"Please enter your last Name",
+                    number: {
+                        required: "Please provide a Phone Number",
+                        number: "Your Phone Number must contain digits only"
+                    },
+                    email:{ 
+                        required:"Please enter your email address",
+                        email:"Please enter a valid email address"                        
+                    },
+                    password:"Please fill your password",
+                    cpassword:{
+                        required:"Please confirm your password",
+                        equalTo:"Confirm Password doesnot match Password"
+                    }
+                }
+            }
+            )
+
+});
+    
+    //when the dom has loaded setup form validation rules
+   
+
+
+</script>
+
         <!--[if lt IE 10]>
             <script src="{% static "assets/js/placeholder.js" %} "></script>
         <![endif]-->

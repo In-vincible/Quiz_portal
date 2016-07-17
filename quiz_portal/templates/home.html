@@ -1,6 +1,6 @@
 
 {% if request.session.logged_in %}
-Success fully registered {{request.session.username}}
+Logged in with email: {{request.session.username}}
 <br>
 <a href='/logout/'>logout</a>
 {% else %}
