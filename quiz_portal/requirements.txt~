@@ -6,7 +6,6 @@ Pillow==2.3.0
 PyJWT==1.4.1
 Pygments==1.6
 Sphinx==1.2.2
-adium-theme-ubuntu==0.3.4
 apt-xapian-index==0.45
 argparse==1.2.1
 astroid==1.0.1
