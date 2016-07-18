@@ -33,7 +33,6 @@ pylint==1.1.0
 pyparsing==2.0.1
 pyserial==2.6
 pysmbc==1.0.14.1
-python-apt==0.7.8.5ubuntu2
 python-dateutil==1.5
 python-debian==0.1.21-nmu2ubuntu2
 python-openid==2.2.5
