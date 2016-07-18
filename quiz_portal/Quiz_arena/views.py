@@ -3,7 +3,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from models import user_info
+from .models import user_info
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 # from django.template.context import RequestContext
@@ -27,7 +27,11 @@ def signup(request):
 			user.save()
 			User_info = user_info(user = user, email = post['email'], phone_no = post['number'])
 			User_info.save()
-	return render(request, 'registered.html',{'first_name':post['first_name'], 'email':post['email']})
+			return render(request, 'registered.html',{'first_name':post['first_name'], 'email':post['email']})
+		else:
+			return redirect('login')
+	else:
+		return redirect('login')
 
 def signin(request):
 	if request.method == 'POST':
@@ -38,18 +42,19 @@ def signin(request):
 			if user is not None:
 				#print 'gotchaa'
 				request.session['logged_in'] = True;
-				request.session['username'] = str(post['username'])
-				return render(request,'home.html',{'email': post['username']})
+				request.session['username'] = post['username']
+				return render(request,'home.html')
 			else:
 				return redirect('login')
 		else:
 			return redirect('login')
 	else:
 		return redirect('login')
+'''
 @login_required(login_url='/')
 def home(request):
-    return render_to_response('base.html')
-
+   return render_to_response('base.html')
+'''
 
 def logout(request):
 	request.session['logged_in'] = False
