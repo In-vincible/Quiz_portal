@@ -45,7 +45,7 @@ def signin(request):
 				request.session['username'] = post['username']
 				return render(request,'home.html')
 			else:
-				return redirect('login')
+				return render(request,"index.html",{"errors":"Email or password not matching !"})
 		else:
 			return redirect('login')
 	else:
