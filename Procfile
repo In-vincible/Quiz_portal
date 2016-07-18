@@ -1,1 +1,1 @@
-web: sh -c'cd /quiz_portal/ && python manage.py runserver'
+web: python manage.py runserver
