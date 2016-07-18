@@ -1,2 +1,1 @@
-web: cd quiz_portal
-web: python manage.py runserver
+web: python manage.py runserver -d /quiz_portal
