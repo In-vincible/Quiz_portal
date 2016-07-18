@@ -81,7 +81,7 @@
 				                        	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
 				                        </div>
 				                        <button type="submit" class="btn" name='query' value='signin'>Sign in!</button>
-                                        {{errors}}
+                                       <font color='lightblue'> {{errors}}</font>
 				                    </form>
 			                    </div>
 		                    </div>
@@ -131,11 +131,13 @@
 				                        </div>
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="email">Email</label>
-				                        	<input type="text" name="email" placeholder="Email..." class="form-email form-control" id="email">
+                                            <input type="text" name="email" placeholder="Email..." class="form-email form-control" id="email">
+                                            <p id='email_error'>Email Already Registered!</p>
 				                        </div>
                                         <div class="form-group">
                                             <label class="sr-only" for="number">Contact</label>
                                             <input type="text" name="number" placeholder="Phone..." class="form-email form-control" id="number">
+                                            <p id='number_error'>Phone Number Already Registered!</p>
                                         </div>
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="password">Password</label>
@@ -147,7 +149,7 @@
                                             <input type='password' name="cpassword" placeholder="Confirm Password..." 
                                                         class="form-first-name form-control" id="cpassword">
                                         </div>
-				                        <button type="submit" class="btn" name='query' value='signup'>Sign me up!</button>
+				                        <button type="submit" class="btn" name='query' value='signup' id='signup'>Sign me up!</button>
 				                    </form>
 			                    </div>
                         	</div>
@@ -187,6 +189,7 @@
         var if_unique_url = "{{ server}}"+"if_unique/";
             //form validation rules
 $(document).ready(function(){
+    $("#number_error, #email_error").hide();
     $("#registration").validate({
                 rules: {
                     first_name: "required",
@@ -227,10 +230,37 @@ $(document).ready(function(){
 
 });
 
+$('#number ,#email').keyup(
+    function (event){
+    var id = $(this).attr('id');
+    var value = ($(this).val()) ? $(this).val() : ' ';
+    data = {
+        "query":id,
+        "value":value
+    };
+    theAjax(if_unique_url,data).done(function(response){
+        id = "#"+id+"_error";
+        if(response==0) {
+            $(id).show();
+            $('#signup').prop('disabled',true);
+        }
+        else{
+            $(id).hide();
+            $('#signup').prop('disabled',false);
+        }
+    });
+}
+    );
 
-    
     //when the dom has loaded setup form validation rules
    
+function theAjax(uri,data){
+ return $.ajax({
+        type:"POST",
+        data:data,
+        url: uri
+ });
+}
 
 
 </script>

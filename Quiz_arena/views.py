@@ -45,7 +45,7 @@ def signin(request):
 				request.session['username'] = post['username']
 				return render(request,'home.html')
 			else:
-				return render(request,"index.html",{"errors":"Email or password not matching !"})
+				return render(request,"index.html",{"errors":"Email or password not matching !","server":server})
 		else:
 			return redirect('login')
 	else:
@@ -65,10 +65,16 @@ def logout(request):
 def if_already_registered(request):
 	if request.method == 'POST':
 		post = request.POST
-		if True:
-			if User.objects.filter(email=post['email']).exists():
-				return HttpResponse("Email Already in use !")
+		val = post['value']
+		if post['query'] == 'email':
+			if User.objects.filter(email=val).exists():
+				return HttpResponse(0)
 			else:
-				return HttpResponse("'true'")
+				return HttpResponse(1)
+		elif post['query'] == 'number':
+			if user_info.objects.filter(phone_no=val).exists():
+				return HttpResponse(0)
+			else:
+				return HttpResponse(1)
 
 	
