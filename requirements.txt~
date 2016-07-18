@@ -31,7 +31,6 @@ pyflakes==0.8.1
 pylint==1.1.0
 pyparsing==2.0.1
 pyserial==2.6
-pysmbc==1.0.14.1
 python-dateutil==1.5
 python-openid==2.2.5
 python-social-auth==0.2.19
