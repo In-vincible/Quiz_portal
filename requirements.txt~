@@ -58,8 +58,3 @@ unity-lens-photos==1.0
 uritemplate==0.6
 urllib3==1.7.1
 virtualenv==15.0.2
-wheel==0.24.0
-wsgiref==0.1.2
-xdiagnose==3.6.3build2
-xlrd==0.9.4
-zope.interface==4.0.5
