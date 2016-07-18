@@ -51,3 +51,5 @@ ssh-import-id==3.21
 uritemplate==0.6
 urllib3==1.7.1
 virtualenv==15.0.2
+gunicorn
+whitenoise
