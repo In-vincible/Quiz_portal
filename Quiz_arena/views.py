@@ -7,7 +7,7 @@ from .models import user_info
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 # from django.template.context import RequestContext
-server = 'http://127.0.0.1:8000/'
+server = 'https://quiz-portal.herokuapp.com/'
 
 def login(request):
 	if 'logged_in' in request.session:
