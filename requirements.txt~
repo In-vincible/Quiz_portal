@@ -8,8 +8,6 @@ Pygments==1.6
 Sphinx==1.2.2
 argparse==1.2.1
 astroid==1.0.1
-chardet==2.0.1
-colorama==0.2.5
 command-not-found==0.3
 debtagshw==0.1
 decorator==3.4.0

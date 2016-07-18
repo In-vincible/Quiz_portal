@@ -8,17 +8,6 @@ Pygments==1.6
 Sphinx==1.2.2
 argparse==1.2.1
 astroid==1.0.1
-chardet==2.0.1
-colorama==0.2.5
-command-not-found==0.3
-debtagshw==0.1
-decorator==3.4.0
-defer==1.0.6
-dirspec==13.10
-docutils==0.11
-duplicity==0.6.23
-google-api-python-client==1.5.1
-gyp==0.1
 html5lib==0.999
 httplib2==0.8
 ipython==1.2.1
