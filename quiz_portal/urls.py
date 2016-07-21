@@ -26,4 +26,9 @@ urlpatterns = [
     url(r'^signup/$',views.signup, name= 'signup'),
     url(r'^signin/$',views.signin, name='signin'),
     url(r'^if_unique/$',views.if_already_registered, name='if_unique'),
+    url(r'^users/$',views.users_infos,name='user_infos'),
+    url(r'^create_quiz/$',views.create_quiz,name='create_quiz'),
+    url(r'^create_question/$',views.create_question,name='create_question'),
+    url(r'^play/$',views.play,name='play'),
+    url(r'^quiz_data/',views.push_quizData,name='push_quizData'),
 ]

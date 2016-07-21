@@ -1,8 +1,19 @@
-
+{% load staticfiles %}
 {% if request.session.logged_in %}
 Logged in with email: {{request.session.username}}
 <br>
 <a href='/logout/'>logout</a>
+<form method='post' action='/create_quiz/' id='quiz'>
+{% csrf_token %}
+<input type='text' placeholder="quiz_name" name='quiz_name'>
+<input type='text' placeholder="beginning_quote" name="beginning_quote">
+<input type='text' placeholder="end_quote" name="end_quote">
+<input type='text' placeholder="duration in minutes" name='duration'>
+<input type='submit' placeholder="submit">
+</form>
+
+	
+
 {% else %}
 Please go to home page
 {% endif %}

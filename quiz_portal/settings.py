@@ -137,7 +137,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
-REDIRECT_URL = '/home/'
+#REDIRECT_URL = '/home/'
 SOCIAL_AUTH_TWITTER_KEY = '9AgAg61AFuOx90UVVo3tvwG13'
 SOCIAL_AUTH_TWITTER_SECRET = 'jROnu5N3mof54ALBIGtckbv80mO6AxER3Fp8WG3YO3fDBdSZkS'
 #SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
@@ -151,3 +151,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
     )
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

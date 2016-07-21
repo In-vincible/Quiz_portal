@@ -1,0 +1,81 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+        <title>SlickQuiz Demo</title>
+
+        <link href="{% static "css/reset.css" %}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{% static "css/slickQuiz.css" %}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{% static "css/master.css" %}" media="screen" rel="stylesheet" type="text/css">
+    </head>
+
+    <body id="slickQuiz">
+        <h1 class="quizName"><!-- where the quiz name goes --></h1>
+
+        <div class="quizArea">
+            <div class="quizHeader">
+                <!-- where the quiz main copy goes -->
+
+                <a class="button startQuiz" href="#">Get Started!</a>
+            </div>
+
+            <!-- where the quiz gets built -->
+        </div>
+
+        <div class="quizResults">
+            <h3 class="quizScore">You Scored: <span><!-- where the quiz score goes --></span></h3>
+
+            <h3 class="quizLevel"><strong>Ranking:</strong> <span><!-- where the quiz ranking level goes --></span></h3>
+
+            <div class="quizResultsCopy">
+                <!-- where the quiz result copy goes -->
+            </div>
+        </div>
+
+        <script src="{% static "js/jquery.js" %}"></script>
+        <script src="{% static "js/slickQuiz-config.js" %}"></script>
+        <script src="{% static "js/slickQuiz.js" %}"></script>
+        <script>
+            var server = "{{server}}";
+            var uri = server+ "quiz_data?quiz_id={{id}}";
+            // Put all your page JS here
+/*
+$(document).ready(function () {
+    
+    $.ajax({
+        type:"GET",
+        uri:server+"/quiz_data?quiz_id="+id,
+        dataType:'json'
+    }).done(function(response){
+    
+}); 
+    });*/
+    
+// Put all your page JS here
+$(document).ready(function(){
+    $.ajax({
+        type:"GET",
+        url:uri,//server+"/quiz_data/?quiz_id="+id,
+        dataType:'json'
+    }).done(function(response){
+    $(function () {
+    $('#slickQuiz').slickQuiz(
+        {
+            json:response
+        });
+});
+});
+});
+
+
+
+
+
+
+
+        </script>
+        <script src="{% static "js/master.js" %}"></script>
+    </body>
+</html>
