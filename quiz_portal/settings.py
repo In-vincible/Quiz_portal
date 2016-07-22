@@ -137,7 +137,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
-#REDIRECT_URL = '/home/'
+REDIRECT_URL = '/'
 SOCIAL_AUTH_TWITTER_KEY = '9AgAg61AFuOx90UVVo3tvwG13'
 SOCIAL_AUTH_TWITTER_SECRET = 'jROnu5N3mof54ALBIGtckbv80mO6AxER3Fp8WG3YO3fDBdSZkS'
 #SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
@@ -153,3 +153,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     )
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+ 
+    #'core.utils.associate_by_email',
+    
+    'social.pipeline.user.get_username',
+    'social.pipeline.user.create_user',
+    #'Quiz_arena.views.make_session',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details'
+)

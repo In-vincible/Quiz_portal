@@ -9,7 +9,6 @@
  * @copyright (c) 2013 Quicken Loans - http://www.quickenloans.com
  * @license MIT
  */
-
 (function($){
     $.slickQuiz = function(element, options) {
         var plugin   = this,

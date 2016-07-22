@@ -31,4 +31,6 @@ urlpatterns = [
     url(r'^create_question/$',views.create_question,name='create_question'),
     url(r'^play/$',views.play,name='play'),
     url(r'^quiz_data/',views.push_quizData,name='push_quizData'),
+    url(r'^register_response/',views.register_response,name='register_response'),
+    url(r'^check/$',views.check_session,name='check_session'),
 ]

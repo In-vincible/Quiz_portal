@@ -3,12 +3,13 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import user_info,quiz,options,questions
+from .models import *#user_info,quiz,options,questions
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+#from social.pipeline.social_auth import UserSocialAuth
 # from django.template.context import RequestContext
-server = 'https://quiz-portal.herokuapp.com/' #'http://127.0.0.1:8000/'
+server =  'https://quiz-portal.herokuapp.com/' #'http://127.0.0.1:8000/' 
 
 def login(request):
 	if 'logged_in' in request.session:
@@ -16,6 +17,11 @@ def login(request):
 			return render(request,'home.html')
 		else:
 			return render(request, 'index.html',{'server':server})
+	elif request.user.is_authenticated():
+		request.session['logged_in'] = True
+		request.session['username'] = request.user.email
+		return render(request,'home.html')
+		
 	else:
 		return render(request, 'index.html',{'server':server})
 def signup(request):
@@ -145,12 +151,16 @@ def push_quizData(request):
 			data['info'] = info
 			json_questions = []
 			Questions = questions.objects.filter(quiz=Quiz)
-
+			response_json_data = {}
+			response_json_questions = []
 			for Question in Questions:
 				json_question = {}
+				response_question = {}
+				response_question['question_id'] = Question.question_id
 				json_question['q'] = Question.question_title
 				Options = options.objects.filter(question=Question)
 				json_options = []
+				response_options = []
 				for Option in Options:
 					json_option = {}
 					json_option['option'] = Option.option_quote
@@ -159,19 +169,51 @@ def push_quizData(request):
 					else:
 						json_option['correct'] = False
 					json_options.append(json_option)
+					response_options.append(Option.option_id)
+				response_question['options'] = response_options
 				json_question['a'] = json_options
 				if Question.question_type == 'sc':
 					json_question['select_any'] = True
 
+				response_json_questions.append(response_question)
 				json_question['correct'] = "<p><span>Correct !</span>"+Question.correct_message+"</p>"
 				json_question['incorrect'] = "<p><span>Incorrect !</span>"+Question.Incorrect_message+"</p>"
 				json_questions.append(json_question)
 			data['questions'] = json_questions
-			return JsonResponse(data)
+			response_json_data['data'] = data
+			response_json_data['back_data'] = response_json_questions
+			return JsonResponse(response_json_data)
 
 
 def play(request):
 	if 'logged_in' in request.session:
 		if request.session['logged_in'] and request.GET['quiz_id']:
-			return render(request,'quiz.html',{'id':request.GET['quiz_id'],"server":server})
+			quiz_user = User.objects.get(email=request.session['username'])
+			Quiz = quiz.objects.get(quiz_id=request.GET['quiz_id'])
+			Quiz_response = quiz_response(quiz=Quiz,user=quiz_user)
+			Quiz_response.save()
+			return render(request,'quiz.html',{'id':request.GET['quiz_id'],"server":server,"response_id":Quiz_response.response_id,"duration":Quiz.duration,"quiz_title":Quiz.name})
+@csrf_exempt
+def register_response(request):
+	if 'logged_in' in request.session:
+		if request.session['logged_in'] and request.GET['response_id']:
+			get = request.GET
+			Quiz_response = quiz_response.objects.get(response_id=get['response_id'])
+			Question = questions.objects.get(question_id = get['question_id'])
+			Question_response = question_response(quiz=Quiz_response,question=Question)
+			Question_response.save()
+			options_recored = get['options'].split(',')
+			options_recored.pop()
+			for option_recored in options_recored:
+				Option = options.objects.get(option_id = option_recored)
+				Option_response = option_response(option=Option,question=Question_response)
+				Option_response.save()
+			return HttpResponse("Question Attempted")
 
+
+def check_session(request):
+	if 'user' in request.session:
+		user = request.session['user']
+		return HttpResponse(user.email)
+	else:
+		return HttpResponse("not working !")
