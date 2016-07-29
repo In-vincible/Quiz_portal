@@ -32,5 +32,7 @@ urlpatterns = [
     url(r'^play/$',views.play,name='play'),
     url(r'^quiz_data/',views.push_quizData,name='push_quizData'),
     url(r'^register_response/',views.register_response,name='register_response'),
-    url(r'^check/$',views.check_session,name='check_session'),
+    #url(r'^check/$',views.check_session,name='check_session'),
+    url(r'^quiz_links/$',views.quiz_links,name='quiz_links'),
+    url(r'^leader_board/',views.leader_board,name='leader_board'),
 ]

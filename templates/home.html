@@ -1,7 +1,10 @@
 {% load staticfiles %}
 {% if request.session.logged_in %}
+<div class="container">
 Logged in with email: {{request.session.username}}
 <br>
+<link rel="stylesheet" href="{% static "assets/bootstrap/css/bootstrap.min.css" %} ">
+<div class="container">
 <a href='/logout/'>logout</a>
 <form method='post' action='/create_quiz/' id='quiz'>
 {% csrf_token %}
@@ -11,9 +14,108 @@ Logged in with email: {{request.session.username}}
 <input type='text' placeholder="duration in minutes" name='duration'>
 <input type='submit' placeholder="submit">
 </form>
+<script src="{% static "assets/js/jquery-1.11.1.min.js" %} "></script>
+<script src="{% static "assets/bootstrap/js/bootstrap.min.js" %} "></script>	
+<div class="col-md-12">
+<table class="table">
+<thead>
+<tr>
+<th>Quiz Name</th>
+<th>Duration</th>
+<th>No Of Questions</th>
+<th>Date of Creation</th>
+<th>Quiz Link</th>
+<th>Leader Board</th>
+</tr>
+</thead>
+<tbody class="quiz">
+</tbody>
+</table>
+</div>
+<div class="modal fade" id="leader_board" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+<thead>
+<tr>
+<th>Rank</th>
+<th>User</th>
+<th>Questions Correct</th>
+<th>Questions Attempted</th>
+<th>Time of Attempt</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 
+</div>
+<script type="text/javascript">
+var url = "{{ server }}" + "quiz_links";
+function theAjax(uri){
+ return $.ajax({
+        type:"GET",
+        dataType:'json',
+        url: uri
+ });
+}
+$(document).ready(function(){
+	theAjax(url).done(function(response){
+		var quiz_array = response['data'];
+		for(i=0;i<quiz_array.length;i++)
+		{
+			html = "<tr>";
+			html += "<td>"+ quiz_array[i]['name'] + "</td>";
+			html += "<td>"+ quiz_array[i]['duration'] + "</td>";
+			html += "<td>"+ quiz_array[i]['no_of_questions'] + "</td>";
+			html += "<td>" + quiz_array[i]['date_created'] + "</td>";
+			html += "<td><a href='" + quiz_array[i]['quiz_link'] +"'>"+ quiz_array[i]['quiz_link'] +"</a></td>";
+			html += '<td><button type="button" class="btn btn-info btn-lg ldb" data-toggle="modal" data-target="#leader_board" id="'+quiz_array[i]['quiz_id']+'" quiz_name="'+quiz_array[i]['name']+'"">Results</button>'
+			$(".quiz").append(html);
+		}
+	})
+});
+
+$(document).on("click",".ldb",function(){
 	
+	var id = $(this).attr("id");
+	var name = $(this).attr("quiz_name");
+	$(".modal-title").html(name + " Leader Board");
+	theAjax("{{server}}"+"leader_board/?quiz_id="+id)
+	.done(function(response){
 
+		var leader_data = response['data'].sort(function(b,a){
+			return (a.questions_correct - b.questions_correct - 0.000001*(a.questions_attempted - b.questions_attempted));
+		});
+		console.log(leader_data);
+		var html = "";
+		for(i=0;i<leader_data.length;i++){
+			html += "<tr><td>"+(i+1)+"</td>";
+			html += "<td>"+leader_data[i]['user_email'] + "</td>";
+			html += "<td>"+leader_data[i]['questions_correct'] + "</td>";
+			html += "<td>"+leader_data[i]['questions_attempted'] + "</td>";
+			html += "<td>"+leader_data[i]['date'] + "</td>";
+			html += "</tr>";
+		}
+		$(".modal-content tbody").html(html);
+	})
+})
+</script>
 {% else %}
 Please go to home page
 {% endif %}

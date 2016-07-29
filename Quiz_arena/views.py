@@ -7,20 +7,21 @@ from .models import *#user_info,quiz,options,questions
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from operator import attrgetter
 #from social.pipeline.social_auth import UserSocialAuth
 # from django.template.context import RequestContext
-server =  'https://quiz-portal.herokuapp.com/' #'http://127.0.0.1:8000/' 
+server = 'https://quiz-portal.herokuapp.com/' #   'http://127.0.0.1:8000/' 
 
 def login(request):
 	if 'logged_in' in request.session:
 		if request.session['logged_in']:
-			return render(request,'home.html')
+			return render(request,'home.html',{"server":server})
 		else:
 			return render(request, 'index.html',{'server':server})
 	elif request.user.is_authenticated():
 		request.session['logged_in'] = True
 		request.session['username'] = request.user.email
-		return render(request,'home.html')
+		return render(request,'home.html',{"server":server})
 		
 	else:
 		return render(request, 'index.html',{'server':server})
@@ -50,7 +51,7 @@ def signin(request):
 				#print 'gotchaa'
 				request.session['logged_in'] = True;
 				request.session['username'] = post['username']
-				return render(request,'home.html')
+				return render(request,'home.html',{"server":server})
 			else:
 				return render(request,"index.html",{"errors":"Email or password not matching !","server":server})
 		else:
@@ -211,9 +212,57 @@ def register_response(request):
 			return HttpResponse("Question Attempted")
 
 
-def check_session(request):
-	if 'user' in request.session:
-		user = request.session['user']
-		return HttpResponse(user.email)
-	else:
-		return HttpResponse("not working !")
+def quiz_links(request):
+	if 'logged_in' in request.session:
+		if request.session['logged_in']:
+			Quizzes = quiz.objects.all()
+			quiz_link = {}
+			quiz_data =  []
+			for Quiz in Quizzes:
+				quiz_object_json = {}
+				quiz_object_json['quiz_id'] = Quiz.quiz_id
+				quiz_object_json['name'] = Quiz.name
+				quiz_object_json['date_created'] = "{:%H:%M, %B %d, %Y}".format(Quiz.created_on)
+				quiz_object_json['duration'] = Quiz.duration
+				no_of_questions = len(questions.objects.filter(quiz=Quiz))
+				quiz_object_json['no_of_questions'] = no_of_questions
+				quiz_object_json['quiz_link'] = server + "play?quiz_id=" + str(Quiz.quiz_id)
+				quiz_data.append(quiz_object_json)
+			quiz_link['data'] = quiz_data
+			return JsonResponse(quiz_link)
+
+def leader_board(request):
+	if 'logged_in' in request.session:
+		if request.session['logged_in'] and request.method == 'GET':
+			id = request.GET['quiz_id']
+			Quiz = quiz.objects.get(quiz_id=id)
+			Quiz_responses = quiz_response.objects.filter(quiz=Quiz)
+			leader_board_json = {}
+			leader_board_data = []
+			for Quiz_response in Quiz_responses:
+				response_object = {}
+				user = Quiz_response.user
+				user_email = user.email
+				Question_responses = question_response.objects.filter(quiz=Quiz_response)
+				questions_attempted = len(Question_responses)
+				questions_correct = 0
+				for Question_response in Question_responses:
+					Option_responses = option_response.objects.filter(question=Question_response)
+					for Option_response in Option_responses:
+						if Option_response.option.option_status == 0:
+							break
+					else:
+						questions_correct += 1
+
+				response_object['user_email'] = user_email
+				response_object['questions_attempted'] = questions_attempted
+				response_object['questions_correct'] = questions_correct
+				if Quiz_response.time_of_attempt:
+					response_object['date'] = "{:%H:%M, %B %d, %Y}".format(Quiz_response.time_of_attempt) 
+				else:
+					response_object['date'] = "Not Updated"
+				leader_board_data.append(response_object)
+			leader_board_json['data'] = leader_board_data
+			return JsonResponse(leader_board_json)
+
+

@@ -9,9 +9,12 @@
         <link href="{% static "css/reset.css" %}" media="screen" rel="stylesheet" type="text/css">
         <link href="{% static "css/slickQuiz.css" %}" media="screen" rel="stylesheet" type="text/css">
         <link href="{% static "css/master.css" %}" media="screen" rel="stylesheet" type="text/css">
+        <!-- <link rel="stylesheet" href="{% static "assets/bootstrap/css/bootstrap.min.css" %} "> -->
     </head>
+    
 <div id='quiz_timer' class="quiz_timer" width="300px" height="300px" style="position:absolute;margin-left: 65%;margin-top: 0;">
 </div>
+    
     <body id="slickQuiz">
 
         <h1 class="quizName"><!-- where the quiz name goes --></h1>
@@ -101,7 +104,9 @@
                     },
                     nextQuestion: function () {},
                     backToQuestion: function () {},
-                    completeQuiz: function () {}
+                    completeQuiz: function () {
+                       
+                    }
                 },
                 events: {
                     onStartQuiz: function (options) {
@@ -168,7 +173,9 @@
 });
 
                     },
-                    onCompleteQuiz: function (options) {}  // reserved: options.questionCount, options.score
+                    onCompleteQuiz: function (options) {
+                         
+                    }  // reserved: options.questionCount, options.score
                 }
             },
 
@@ -909,4 +916,5 @@ $(document).ready(function(){
 
         </script>
     </body>
+    
 </html>

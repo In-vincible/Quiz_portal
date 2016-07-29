@@ -3,6 +3,8 @@
 Quiz successfully created<br><a href='/logout/'>logout</a><br>
 {{quiz.name}}
 {{quiz.beginning_quote}}
+<link rel="stylesheet" href="{% static "assets/bootstrap/css/bootstrap.min.css" %} ">
+<div class="container" role="main">
 <input type="hidden" id="quiz_id" value="{{ quiz.quiz_id }}">
 <a href="{{server}}play?quiz_id={{ quiz.quiz_id }}">Check out the Quizzz</a>
 <select id="no_of_options">
@@ -19,6 +21,7 @@ Quiz successfully created<br><a href='/logout/'>logout</a><br>
 </select>
 <button id='question'>Add Question</button>
 <div id='question_area'></div>
+</div>
 <script src="{% static "assets/js/jquery-1.9.1.js" %} "></script>
 <script type="text/javascript">
 var question_count = 0;
@@ -63,7 +66,7 @@ $(document).on("click",".add_button",function(event){
 	
 	console.log(data);
 	theAjax(url,data).done(function(response){
-		$(questionId).append(response+"<br><br><br>")
+		$(questionId).append('<div class="alert alert-success" role="alert"><strong>Well done!</strong>'+response+'</div>'+'<br><br><br>');
 	});
 });
 

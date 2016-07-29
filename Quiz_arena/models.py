@@ -70,6 +70,7 @@ class quiz_response(models.Model):
 	response_id = models.AutoField(primary_key = True)
 	quiz = models.ForeignKey(quiz,null=True)
 	user = models.ForeignKey(User,null=True)
+	time_of_attempt = models.DateTimeField(auto_now = True,null = True)
 
 class question_response(models.Model):
 	response_id = models.AutoField(primary_key = True)
