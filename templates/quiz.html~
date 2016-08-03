@@ -919,4 +919,6 @@ $(document).ready(function(){
 </body>
     
 </html>
-
+<br><br><br><br>
+<a href='/'>Home </a><br><br>
+<a href='/logout/'>logout</a>    

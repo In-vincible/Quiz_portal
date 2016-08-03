@@ -1,19 +1,48 @@
 {% load staticfiles %}
 {% if request.session.logged_in %}
-<div class="container">
-Logged in with email: {{request.session.username}}
-<br>
+
+
 <link rel="stylesheet" href="{% static "assets/bootstrap/css/bootstrap.min.css" %} ">
+
+
+<nav class="navbar navbar-inverse fixed">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Quizzer</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      
+      <li><a href="#">Profile(not working)</a></li>
+      <li style="font-size:20px;margin:0 auto;"><strong>Logged in with: {{request.session.username}}</strong></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+     
+      <li><a href="/logout/"><span class="glyphicon glyphicon-log-out"></span> Login</a></li>
+    </ul>
+  </div>
+</nav>
+
 <div class="container">
-<a href='/logout/'>logout</a>
-<form method='post' action='/create_quiz/' id='quiz'>
+<form method='post' action='/create_quiz/' id='quiz' role="form">
 {% csrf_token %}
-<input type='text' placeholder="quiz_name" name='quiz_name'>
-<input type='text' placeholder="beginning_quote" name="beginning_quote">
-<input type='text' placeholder="end_quote" name="end_quote">
-<input type='text' placeholder="duration in minutes" name='duration'>
-<input type='submit' placeholder="submit">
+<div class="form-group">
+<input type='text' placeholder="quiz_name" name='quiz_name' class="form-control">
+</div>
+<div class="form-group">
+<input type='text' placeholder="beginning_quote" name="beginning_quote" class="form-control">
+</div>
+<div class="form-group">
+<input type='text' placeholder="end_quote" name="end_quote" class="form-control">
+</div>
+<div class="form-group">
+<input type='text' placeholder="duration in minutes" name='duration' class="form-control">
+</div>
+<div class="form-group">
+<input type='submit' placeholder="submit" class="btn btn-primary">
+</div>
 </form>
+
 <script src="{% static "assets/js/jquery-1.11.1.min.js" %} "></script>
 <script src="{% static "assets/bootstrap/js/bootstrap.min.js" %} "></script>	
 <div class="col-md-12">
@@ -76,7 +105,7 @@ function theAjax(uri){
 }
 $(document).ready(function(){
 	theAjax(url).done(function(response){
-		var quiz_array = response['data'];
+		var quiz_array = response['data'].reverse();
 		for(i=0;i<quiz_array.length;i++)
 		{
 			html = "<tr>";

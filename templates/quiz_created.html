@@ -1,12 +1,33 @@
 {% if quiz %}
 {% load staticfiles %}
-Quiz successfully created<br><a href='/logout/'>logout</a><br>
-{{quiz.name}}
-{{quiz.beginning_quote}}
 <link rel="stylesheet" href="{% static "assets/bootstrap/css/bootstrap.min.css" %} ">
+<nav class="navbar navbar-inverse fixed">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Quizzer</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li class="active"><a href="#">Quiz Creating Page</a></li>
+      
+      <li><a href="{{server}}play?quiz_id={{ quiz.quiz_id }}">Check out the Quizzz</a></li>
+      
+      <li style="font-size:20px;margin:0 auto;"><span> <strong>{{quiz.name}}</strong> Quiz successfully created</span></li>
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+     
+      <li><a href="/logout/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
 <div class="container" role="main">
+
 <input type="hidden" id="quiz_id" value="{{ quiz.quiz_id }}">
-<a href="{{server}}play?quiz_id={{ quiz.quiz_id }}">Check out the Quizzz</a>
+
+
+
+<div class="form-group">
 <select id="no_of_options">
 	<option value=2>2 options</option>
 	<option value=3>3 options</option>
@@ -19,7 +40,10 @@ Quiz successfully created<br><a href='/logout/'>logout</a><br>
 	<option value=10>10 options</option>
 
 </select>
-<button id='question'>Add Question</button>
+</div>
+<div class="form-group">
+<button id='question' class="btn btn-primary">Add Question</button>
+</div>
 <div id='question_area'></div>
 </div>
 <script src="{% static "assets/js/jquery-1.9.1.js" %} "></script>

@@ -10,7 +10,7 @@ import json
 from operator import attrgetter
 #from social.pipeline.social_auth import UserSocialAuth
 # from django.template.context import RequestContext
-server = 'https://quiz-portal.herokuapp.com/' #   'http://127.0.0.1:8000/' 
+server =  'https://quiz-portal.herokuapp.com/'  # 'http://127.0.0.1:8000/' 
 
 def login(request):
 	if 'logged_in' in request.session:
