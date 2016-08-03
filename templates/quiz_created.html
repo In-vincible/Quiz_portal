@@ -57,7 +57,7 @@ $("#question").click(function (){
 	html += '<br><div class="form-group"><button id="'+question_count+'" class="add_button btn btn-primary">Add the Question</button></div><br>';
 	val++;
 	while(--val){
-		html += '<div class="form-group"><input type="text" placeholder="'+val+' option" class="'+val+'option form-control"><select class="'+val+'"><option value=0>Incorrect</option><option value=1>Correct</option></select></div><br>';
+		html += '<div class="form-group"><input type="text" placeholder="'+val+' option" class="'+val+'option form-control"><select class="'+val+' form-control"><option value=0>Incorrect</option><option value=1>Correct</option></select></div><br>';
 	}
 	html += "<br><br></div>"
 	$("#question_area").append(html);
