@@ -9,7 +9,7 @@ Sphinx==1.2.2
 argparse==1.2.1
 astroid==1.0.1
 html5lib==0.999
-httplib2==0.8
+httplib2==0.18.0
 ipython==1.2.1
 jedi==0.7.0
 lockfile==0.8
