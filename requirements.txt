@@ -1,5 +1,5 @@
 Django==1.9.2
-Jinja2==2.7.2
+Jinja2==2.11.3
 MarkupSafe==0.18
 PAM==0.1.4
 Pillow==2.3.0
