@@ -10,7 +10,7 @@ argparse==1.2.1
 astroid==1.0.1
 html5lib==0.999
 httplib2==0.8
-ipython==1.2.1
+ipython==7.16.3
 jedi==0.7.0
 lockfile==0.8
 logilab-common==0.61.0
