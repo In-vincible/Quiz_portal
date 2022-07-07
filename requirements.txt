@@ -38,7 +38,7 @@ pytz==2012c
 pyxdg==0.25
 pyzmq==14.0.1
 reportlab==3.0
-requests==2.2.1
+requests==2.20.0
 requests-oauthlib==0.6.2
 roman==2.0.0
 rope==0.9.2
