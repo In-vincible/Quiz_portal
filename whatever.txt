@@ -1,0 +1,9 @@
+Portfolio Weighting with Constraints
+See attached xlsx
+Each ISIN should be weighted by freeFloatMcap
+Contraints are:
+                                                    i.     max weight per ISIN is 10%
+
+                                                   ii.     max overall weight for names >5% weight is 50%
+
+                                                  iii.     excess weight to be redistributed across names which are not capped
